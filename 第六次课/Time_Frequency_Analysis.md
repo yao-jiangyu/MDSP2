@@ -98,10 +98,10 @@ Where, ${\omega}_0 = \frac{2\pi}{T}$
 Extract a period from the periodic pulse sequence, then perform a Fourier transform on it.
 \[X({\omega}) = \int_{T} x(t) e^{-j{\omega}t} dt\]
 \[c_n = \frac{1}{T} \int_{T} g(t) e^{-jn{\omega}_0t} dt\]
-\[c_n = \frac{1}{T} \int_{T} (\sum_{n=-\infty}^{\infty} x(t+nT)) e^{-jn{\omega}_0t} dt\]
-\[c_n = \frac{1}{T} \int_{T} x(t) e^{-jn{\omega}_0t} dt\]
-\[c_n = \frac{1}{T} X({\omega})|_{n{\omega}_0}\]
-\[c_n = \frac{1}{T} X(n{\omega}_0)\]
+\[ = \frac{1}{T} \int_{T} (\sum_{n=-\infty}^{\infty} x(t+nT)) e^{-jn{\omega}_0t} dt\]
+\[ = \frac{1}{T} \int_{T} x(t) e^{-jn{\omega}_0t} dt\]
+\[ = \frac{1}{T} X({\omega})|_{n{\omega}_0}\]
+\[ = \frac{1}{T} X(n{\omega}_0)\]
 Where, $X({\omega})$ is the Fourier transform of $x(t)$
 Therefore, Possion’s Summation Formula is given by:
 **\[g(t) = \sum_{n=-\infty}^{\infty} x(t+nT) = \frac{1}{T} \sum_{n=-\infty}^{\infty}  X(n{\omega}_0) e^{jn{\omega}_0t}\]**

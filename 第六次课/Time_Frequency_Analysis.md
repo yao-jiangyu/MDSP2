@@ -127,3 +127,35 @@ where, ${\omega}_0 = \frac{2\pi}{T}$
     3. \[T_xM_{\omega}(f(t)) = T_x(f(t) e^{j{\omega}t}) = f(t-x) e^{j{\omega}(t-x)}\]
     4. \[M_{\omega}T_x(f(t)) = M_{\omega}(f(t-x)) = f(t-x) e^{j{\omega}t}\]
     5. \[\mathcal{F}\ [T_xM_{{\omega}0}(f(t))] = \int_{-\infty}^{\infty} f(t-x) e^{j{\omega}_0(t-x)} e^{-j{\omega}t} dt = e^{-j{\omega}x} F({\omega}-{\omega}_0) = M_{-x}T_{\omega}{_0}(F({\omega}))\]
+
+***Short Time Fourier Transform (STFT)***
+1. ***FT***
+\[F(\omega) = \int_{-\infty}^{\infty} f(t') e^{-j{\omega}t'} dt'\]
+我们付出了整个时间域的代价，得到了某点$\omega$的信息，将时间局部化后：
+\[ \int_{-\infty}^{\infty} f(t') g(t'-t) e^{-j{\omega}t'} dt'\]
+其中，$g(t)$是一个窗函数，$g(t)=I_{[-a,a]}(t)$
+因为
+\[-a \leq t'-t \leq a\] \[t-a \leq t' \leq t+a\]
+所以
+\[ \int_{-\infty}^{\infty} f(t') g(t'-t) e^{-j{\omega}t'} dt' = \int_{t-a}^{t+a} f(t') e^{-j{\omega}t'} dt'\]
+由此，我们就得到了STFT的定义：同时具有时间和频率二维信息的函数，$V_gf(t,{\omega})$是以$g$为窗函数，$f$为对象的短时傅里叶变换。
+\[V_gf(t,{\omega}) = \int_{-\infty}^{\infty} f(t') \overline{g(t'-t)} e^{-j{\omega}t'} dt'\]
+从不同的角度去认识短时傅里叶变换：
+\[V_gf(t,{\omega}) = \int_{-\infty}^{\infty} f(t') \overline{g(t'-t)} e^{-j{\omega}t'} dt'\]
+\[V_GF({\omega},t) = \int_{-\infty}^{\infty} F(\omega') \overline{G(\omega'-\omega)} e^{-jt{\omega}'} d\omega'\]
+***$V_gf(t,{\omega})$ 和 $V_GF({\omega},t)$的关系如何？***
+很明显，$V_gf(t,{\omega})$可以间接看作$<f,h>$，$V_GF({\omega},t)$也可以间接看作$<F,H>$。我们知道，$<f,h> = \frac{1}{2\pi}<F,H>$，所以可以从此入手，得到$V_gf(t,{\omega})$和$V_GF({\omega},t)$的关系。
+\[V_GF({\omega},t) = \int_{-\infty}^{\infty} F(\omega') \overline{G(\omega'-\omega)} e^{-jt{\omega}'} d\omega'\]
+\[ = \int_{-\infty}^{\infty} F(\omega') \overline{G(\omega'-\omega) e^{jt{\omega}'} }d\omega'\]
+所以对 $G(\omega'-\omega) e^{jt{\omega}'}$ 做傅里叶逆变换：
+\[ \frac{1}{2\pi} \int_{-\infty}^{\infty} G(\omega'-\omega) e^{jt{\omega}'} e^{j{\omega}'t'}d\omega'\]
+令$\omega'' = \omega'-\omega$，则$\omega' = \omega''+\omega$，所以原式等于：
+\[ = \frac{1}{2\pi} \int_{-\infty}^{\infty} G(\omega'') e^{jt(\omega''+\omega)} e^{j(\omega''+\omega)t'}d\omega''\]
+\[ = \frac{1}{2\pi} \int_{-\infty}^{\infty} G(\omega'') e^{j\omega''(t+t')} d\omega''e^{j\omega (t+t')}\]
+\[ =  g(t+t') e^{j\omega (t+t')}\]
+接下来，
+\[V_GF({\omega},t)  = \int_{-\infty}^{\infty} F(\omega') \overline{G(\omega'-\omega) e^{jt{\omega}'} }d\omega'\]
+\[ = {2\pi}\int_{-\infty}^{\infty} f(t') \overline{g(t+t') e^{j\omega (t+t')}} dt'\]
+\[ = {2\pi}\int_{-\infty}^{\infty} f(t') \overline{g(t'- (-t))} e^{-j\omega (t+t')} dt'\]
+\[ = {2\pi}\int_{-\infty}^{\infty} f(t') \overline{g(t'- (-t))} e^{-j\omega t'} dt' e^{-j\omega t}\]
+\[ = {2\pi}V_gf(-t,{\omega}) e^{-j\omega t}\]

@@ -159,3 +159,50 @@ where, ${\omega}_0 = \frac{2\pi}{T}$
 \[ = {2\pi}\int_{-\infty}^{\infty} f(t') \overline{g(t'- (-t))} e^{-j\omega (t+t')} dt'\]
 \[ = {2\pi}\int_{-\infty}^{\infty} f(t') \overline{g(t'- (-t))} e^{-j\omega t'} dt' e^{-j\omega t}\]
 \[ = {2\pi}V_gf(-t,{\omega}) e^{-j\omega t}\]
+$\tilde{g}(t)=g(-t)$，所以$V_gf(t,{\omega}) = \int_{-\infty}^{\infty} f(t') \overline{\tilde{g}(t-t')} e^{-j{\omega}t'} dt'$ 所以可以从卷积的角度来看待短时傅里叶变换。
+\[ V_gf(t,{\omega}) = \int_{-\infty}^{\infty} f(t') \overline{\tilde{g}(t-t')} e^{-j{\omega}t'} dt'\]
+\[ = \int_{-\infty}^{\infty} f(t') \overline{\tilde{g}(t-t')} e^{-j{\omega}(t-t')} dt'e^{-j{\omega}t}\]
+\[ = (f(t) \ast (\overline{\tilde{g}(t)} e^{j{\omega}t}))e^{-j{\omega}t}\]
+这个卷积核一方面在时域上面移动，一方面在频域上面移动，所以STFT本质是拿一个滤波器在时域和频域上面移动，然后对信号进行滤波。是一个在时频平面的滤波器。
+时间分辨率和频率分辨率不可兼得，时间分辨率和频率分辨率是互相矛盾的，时间分辨率越高，频率分辨率越低，时间分辨率越低，频率分辨率越高。
+
+***Uncertainty Principle***
+对于一个能量有限的信号，
+\[ \int_{-\infty}^{\infty} |f(t)|^2 dt < \infty\]
+\[ \int_{-\infty}^{\infty} |F(\omega)|^2 d(\omega) < \infty\]
+我们可以得到均值，也就是平均位置：
+\[m_t = \int_{-\infty}^{\infty} t|f(t)|^2 dt \]
+\[m_{\omega} = \int_{-\infty}^{\infty} \omega|F(\omega)|^2 d(\omega) \]
+于是，我们可以得到方差，也就是有效长度(宽胖程度)，与之对应也会是时间分辨率和频率分辨率：
+\[ \sigma_t^2 = \int_{-\infty}^{\infty} (t-m_t)^2|f(t)|^2 dt \]
+\[ \sigma_{\omega}^2 = \int_{-\infty}^{\infty} (\omega-m_{\omega})^2|F(\omega)|^2 d(\omega) \]
+我们可以得到不确定性原理：(两者不能同时达到最小值):
+\[ \sigma_t^2 \sigma_{\omega}^2 \geq C \]
+proof:
+假设有AB两个算子，A算子作用在f上，与g做内积:
+\[ <Af,g> = \int_{-\infty}^{\infty} (Af)(t)g^*(t) dt = <f,A^Hg> \]
+从矩阵上看：
+\[ <Af,g> = (Af)^Hg = f^HA^Hg = <f,A^Hg>\]
+$A^H$是A的伴随，伴随就理解成矩阵里面的共轭转置。
+**可交换性：**
+已知$AB-BA =[A,B]$，$<x,y> = \overline{<y,x>}$
+\[ <[A,B]f,f> = <(AB-BA)f,f> \]
+\[  = <ABf,f> - <BAf,f>  \]
+\[  = <Bf,Af> - <Af,Bf>  \]
+\[  =  2jIm<Bf,Af> \]
+所以：
+\[ |<[A,B]f,f>| = 2|Im<Bf,Af>| \]
+\[ \leq 2|<Bf,Af>|  \]
+\[ \leq 2||Bf||\ ||Af|| \]
+假设$(Af)(t) = t f(t)$，$(Bf)(t) = \frac{1}{2\pi j} \frac{d}{dt}f(t)$
+\[ (AB-BA)f = (AB)f - (BA)f = \frac{1}{2\pi j}  t \frac{d}{dt}f(t) - \frac{1}{2\pi j} \frac{d}{dt}(tf(t)) \]
+\[ =  - \frac{1}{2\pi j} f(t)\]
+所以，$AB-BA = - \frac{1}{2\pi j} I$
+\[ |<[A,B]f,f>| = \frac{1}{2\pi} |<f,f>| = \frac{1}{2\pi} ||f||^2  \leq  ||Af||\ ||Bf|| \]
+令$<f,f> = ||f||^2 = 1$
+\[ ||Af||\ ||Bf|| \geq \frac{1}{2\pi} \]
+\[ ||Af|| = \sqrt{<Af,Af>} = ({\int_{-\infty}^{\infty} tf(t) \overline{tf(t)} dt})^{1/2} \]
+\[ = ({\int_{-\infty}^{\infty} t^2|f(t)|^2 dt})^{1/2} = \sigma_t \]
+\[ ||Bf|| = \sqrt{<Bf,Bf>} = ({\int_{-\infty}^{\infty} (\frac{1}{2\pi j} \frac{d}{dt}f(t)) \overline{(\frac{1}{2\pi j} \frac{d}{dt}f(t))} dt})^{1/2} \]
+\[ = (\frac{1}{4\pi^2}({\int_{-\infty}^{\infty} |\frac{d}{dt}f(t) |^2 dt}))^{1/2} \]
+\[ = (\frac{1}{4\pi^2}(\frac{1}{2\pi}\int_{-\infty}^{\infty} {\omega}^2|F(\omega)|^2 d\omega))^{1/2}  \]
